@@ -4,7 +4,8 @@ var bio = {
   "contacts": {
     "email": "angelocandari@gmail.com",
     "github": "angelocandari",
-    "twitter": "angelocandari"
+    "twitter": "angelocandari",
+    "linkedin": "angelocandari"
   },
   "message": "Welcome to my site.",
   "skills": [
@@ -63,7 +64,7 @@ var projects = {
     main website. With a combination of proper targeting, optimized bidding and \
     clear call-to-action landing pages, we were able to generated leads and a \
     healthy conversation rate that has generated 33% over our investment"
-  },{
+  }, {
     "title": "Churrasco Campaign",
     "date": "2016",
     "description": "Managed overall Marketing Campaign for Churrasco Night at Cabana. \
@@ -110,54 +111,81 @@ var education = {
   }]
 };
 
-function interNames (myName) {
+function interNames(myName) {
   var nameArray = myName.split(" ");
   var firstName = nameArray[0].slice(1).toLowerCase();
-  var capFirst = nameArray[0].slice(0,1).toUpperCase();
+  var capFirst = nameArray[0].slice(0, 1).toUpperCase();
   var secondName = nameArray[1].toUpperCase();
   var formattedName = capFirst + firstName + " " + secondName;
   return formattedName;
 };
 
-var formatName = HTMLheaderName.replace("%data%", interNames(bio.name));
-var formatRole = HTMLheaderRole.replace("%data%", bio.role);
-$("#header").prepend(formatRole);
-$("#header").prepend(formatName);
 
-var formatEmail = HTMLemail.replace("%data%", bio.contacts.email);
-var formatGithub = HTMLgithub.replace("%data%", bio.contacts.github);
-var formatTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
-$("#topContacts").prepend(formatEmail);
-$("#topContacts").prepend(formatGithub);
-$("#topContacts").prepend(formatTwitter);
+function addItems(location, helper, data) {
+  var format = helper.replace("%data%", data);
+  $(location).append(format);
+}
 
-var formatWelcome = HTMLwelcomeMsg.replace("%data%", bio.message);
-$("#header").append(formatWelcome);
+addItems("#header", HTMLheaderName, interNames(bio.name));
+addItems("#header", HTMLheaderRole, interNames(bio.role));
+addItems("#header", HTMLwelcomeMsg, bio.message);
 
-if (bio.skills.length > 0) {
-  $("#header").append(HTMLskillsStart);
-  for (skill in bio.skills) {
-    var formatSkill = HTMLskills.replace("%data%", bio.skills[skill]);
-    $("#skills").append(formatSkill);
+addItems("#header", HTMLcontactsStart);
+addItems("#topContacts", HTMLemail, bio.contacts.email);
+addItems("#topContacts", HTMLgithub, bio.contacts.github);
+addItems("#topContacts", HTMLtwitter, bio.contacts.twitter);
+addItems("#topContacts", HTMLlinkedin, bio.contacts.linkedin);
+
+function addRepeat(location, helper, data){
+  for (var i=0; i < data.length; i++) {
+    addItems(location, helper, data[i]);
+  }
+}
+
+addItems("#header", HTMLskillsStart);
+addRepeat("#skills", HTMLskills, bio.skills);
+
+// var formatName = HTMLheaderName.replace("%data%", interNames(bio.name));
+// var formatRole = HTMLheaderRole.replace("%data%", bio.role);
+// $("#header").prepend(formatRole);
+// $("#header").prepend(formatName);
+// var formatEmail = HTMLemail.replace("%data%", bio.contacts.email);
+// var formatGithub = HTMLgithub.replace("%data%", bio.contacts.github);
+// var formatTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
+// var formatLinkedin = HTMLlinkedin.replace("%data%", bio.contacts.linkedin);
+// $("#topContacts").prepend(formatEmail);
+// $("#topContacts").prepend(formatGithub);
+// $("#topContacts").prepend(formatTwitter);
+// $("#topContacts").prepend(formatLinkedin);
+
+// var formatWelcome = HTMLwelcomeMsg.replace("%data%", bio.message);
+// $("#header").append(formatWelcome);
+//
+// if (bio.skills.length > 0) {
+//   $("#header").append(HTMLskillsStart);
+//   for (skill in bio.skills) {
+//     var formatSkill = HTMLskills.replace("%data%", bio.skills[skill]);
+//     $("#skills").append(formatSkill);
+//   }
+// };
+
+function addWork() {
+  if (work.jobs.length > 0) {
+    $("#workExperience").append(HTMLworkStart);
+    for (var i=0; i<work.jobs.length; i++) {
+      var formatEmployer = HTMLworkEmployer.replace("%data%", work.jobs[i].employer);
+      var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[i].title);
+      var formatEmployerTitle = formatEmployer + formatTitle;
+      $(".work-entry").append(formatEmployerTitle);
+      var formatDates = HTMLworkDates.replace("%data%", work.jobs[i].dates);
+      $(".work-entry").append(formatDates);
+      var formatDesc = HTMLworkDescription.replace("%data%", work.jobs[i].description);
+      $(".work-entry").append(formatDesc);
+    }
   }
 };
 
-if (work.jobs.length > 0) {
-  $("#workExperience").append(HTMLworkStart);
-  for (job in work.jobs) {
-    var formatEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
-    var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
-    var formatEmployerTitle = formatEmployer + formatTitle;
-    $(".work-entry").append(formatEmployerTitle);
-
-    var formatDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
-    $(".work-entry").append(formatDates);
-
-    var formatDesc = HTMLworkDescription.replace("%data%", work.jobs[job].description);
-    $(".work-entry").append(formatDesc);
-
-  }
-};
+addWork();
 
 projects.display = function() {
   $("#projects").append(HTMLprojectStart);
