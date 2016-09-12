@@ -53,7 +53,35 @@ var work = {
 };
 
 var projects = {
-
+  "emaar": [{
+    "title": "Festive and NYE at The Address Dubai Mall 2015 Campaign",
+    "date": "2015",
+    "description": "Developed Digital Marketing strategy for Christmas and New Year’s \
+    Eve Celebration at The Address Dubai Mall. Utilizing Social Media Ads, \
+    Display Ads, PPC Search Ads, Remarketing/Contextual Ads, Blogger \
+    Collaboration, Email we were able to generate high visitor traffic at our \
+    main website. With a combination of proper targeting, optimized bidding and \
+    clear call-to-action landing pages, we were able to generated leads and a \
+    healthy conversation rate that has generated 33% over our investment"
+  },{
+    "title": "Churrasco Campaign",
+    "date": "2016",
+    "description": "Managed overall Marketing Campaign for Churrasco Night at Cabana. \
+    I prepared the digital marketing strategy for this campaign that spanned the whole \
+    year. And with my marketing manager resigning for the year of 2015, I was given the \
+    opportunity to plan and implement the whole year strategy to promote Cabana \
+    Churrasco Campaign from Creative Design Concept to Campaign implementation for \
+    Print, Radio and Online. The campaign continued throughout the year with a kick-off \
+    event and complimentary bursts of tactical campaigns that sustained awareness and \
+    convert potential customers."
+  }],
+  "smart": [{
+    "title": "Smart Bro Series",
+    "date": "2011",
+    "description": "Collection of training materials to update Field Sales Agents on new products \
+    of Smart Bro. Includes training videos and interactive flash-based training materials. \
+    Role: Interactive Developer"
+  }]
 };
 
 var education = {
@@ -117,7 +145,6 @@ if (bio.skills.length > 0) {
 if (work.jobs.length > 0) {
   $("#workExperience").append(HTMLworkStart);
   for (job in work.jobs) {
-
     var formatEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
     var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
     var formatEmployerTitle = formatEmployer + formatTitle;
@@ -131,3 +158,19 @@ if (work.jobs.length > 0) {
 
   }
 };
+
+projects.display = function() {
+  $("#projects").append(HTMLprojectStart);
+  for (company in projects) {
+    for (project in projects[company]) {
+      var title = HTMLprojectTitle.replace("%data%", projects[company][project].title);
+      $(".project-entry").append(title);
+      var date = HTMLprojectDates.replace("%data%", projects[company][project].date);
+      $(".project-entry").append(date);
+      var description = HTMLprojectDescription.replace("%data%", projects[company][project].description);
+      $(".project-entry").append(description);
+    }
+  }
+};
+
+projects.display();
