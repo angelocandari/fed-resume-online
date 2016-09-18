@@ -1,12 +1,12 @@
 var bio = {
   "name": "Angelo Candari",
   "role": "Digital Marketing Professional",
-  "location": "Dubai",
   "contacts": {
     "email": "angelocandari@gmail.com",
     "github": "angelocandari",
     "twitter": "angelocandari",
-    "linkedin": "angelocandari"
+    "linkedin": "angelocandari",
+    "location": "Dubai",
   },
   "message": "Welcome to my site.",
   "skills": ["Digital Marketing", "Web Development", "Data Analytics"],
