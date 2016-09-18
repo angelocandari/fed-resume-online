@@ -20,8 +20,7 @@ var HTMLheaderRole = '<span class="role">%data%</span>';
 
 var HTMLcontactsStart = '<h3 id="skills-h3"></h3><ul id="topContacts" class="flex-box"></ul>';
 var HTMLcontactGeneric = '<li class="flex-item"><span class="orange-text">%contact%</span><span class="white-text">%data%</span></li>';
-var HTMLmobile = '<li class="flex-item"><span class="orange-text">mobile</span> \
-<span class="white-text">%data%</span></li>';
+var HTMLmobile = '<li class="flex-item"><span class="orange-text">mobile:</span><span class="white-text">%data%</span></li>';
 
 var HTMLemail = '<li class="flex-item"><span class="orange-text">email:</span><span class="white-text"><a class="email">%data%</a></span></li>';
 var HTMLtwitter = '<li class="flex-item"><span class="orange-text">twitter: </span><span class="white-text"><a class="twitter">%data%</a></span></li>';
@@ -49,8 +48,8 @@ var HTMLprojectDescription = '<p><br>%data%</p>';
 var HTMLprojectImage = '<img src="%data%">';
 
 var HTMLschoolStart = '<div class="education-entry"></div>';
-var HTMLschoolTitle = '<h3 href="#">%data%';
-var HTMLschoolCollege = ' -- %data%</a>';
+var HTMLschoolName = '<h3 href="#">%data%';
+var HTMLschoolDegree = ' - %data%</a>';
 var HTMLschoolDates = '<div class="date-text">%data%</div>';
 var HTMLschoolLocation = '<div class="location-text">%data%</div>';
 var HTMLschoolMajor = '<em><br>Major: %data%</em>';
@@ -141,15 +140,16 @@ function initializeMap() {
     var locations = [];
 
     // adds the single location property from bio to the locations array
-    locations.push(bio.location);
-
+    for (var y = 0; y < bio.contacts.location.length; y++) {
+      locations.push(bio.contacts.location[y]);
+    }
     // iterates through school locations and appends each location to
     // the locations array. Note that forEach is used for array iteration
     // as described in the Udacity FEND Style Guide:
     // https://udacity.github.io/frontend-nanodegree-styleguide/javascript.html#for-in-loop
     // education.forEach(function(school){
     for (var i = 0; i < education.school.length; i++) {
-      locations.push(education.school.location);
+      locations.push(education.school[i].location);
     };
 
     // iterates through work locations and appends each location to
