@@ -3,12 +3,15 @@ var bio = {
   "role": "Digital Marketing Professional",
   "location": "Dubai",
   "contacts": {
-    "email": "angelocandari@gmail.com",
-    "github": "angelocandari",
-    "twitter": "angelocandari",
-    "linkedin": "angelocandari"
+    "email": ["angelocandari@gmail.com", "mailto:angelocandari@gmail.com"],
+    "github": ["angelocandari", "https://github.com/angelocandari"],
+    "twitter": ["angelocandari", "https://twitter.com/angelocandari1"],
+    "linkedin": ["angelocandari", "https://ae.linkedin.com/in/angelocandari"]
   },
-  "message": "Welcome to my site.",
+  "message": "Specializing in Digital Marketing with a background of Web \
+  Development and Data Analytics. I am a Google Analytics and Google Search \
+  Adwords Certified professional with a Bachelor's Degree in Communications \
+  Technology Management.",
   "skills": ["Digital Marketing", "Web Development", "Data Analytics"],
   "pic": "images/pic.jpg"
 };
@@ -131,21 +134,51 @@ var projects = [
   }]
 ];
 
-var education = [
-  {
-    "title": "BS Communication Technology",
+var education = {
+  "school": {
+    "title": "BS Communications Technology Management",
+    "college": "Ateneo De Manila University",
     "location": "Manila, Philippines",
-    "description": "Ateneo de Manila University",
-    "date": "2008"
+    "date": "2008",
+    "description": "It focuses on the management expertise of the BS Management \
+    Program while injecting subjects in communications and information \
+    technology to develop a more holistic manager for the industry. In the \
+    end, the students who graduate with a BS Comtech degree is a manager \
+    that understands both the management and the creative processes of the industry."
   },
-  {
+  "online": {
     "title": "Front End Web Development",
-    "location": "Manila, Philippines",
-    "description": "Udacity",
-    "date": "September 2016"
+    "location": "Dubai, United Arab Emirates",
+    "school": "Udacity",
+    "date": "September 2016",
+    "description": "Master the skills required to become a Front-End Web \
+    Developer, and start building beautiful, responsive websites optimized \
+    for mobile and desktop performance. Learn the fundamentals of how the web \
+    works and gain a working knowledge of the three foundational languages \
+    that power each and every website: HTML, CSS and JavaScript."
   },
-];
+  "certifications": [{
+    "title": "Google Analytics",
+    "location": "Dubai, United Arab Emirates",
+    "source": "Google",
+    "date": "July 2016",
+    "description": "The Google Analytics Individual Qualification (IQ) is a \
+    demonstration of proficiency in Google Analytics that is available to any \
+    individual who has passed the Google Analytics IQ exam."
+  }, {
+    "title": "Google Search Adwords",
+    "location": "Dubai, United Arab Emirates",
+    "source": "Google",
+    "date": "August 2016",
+    "description": "The Google AdWords certification is a professional \
+    accreditation that Google offers to individuals who demonstrate \
+    proficiency in basic and advanced aspects of AdWords. An AdWords \
+    certification allows individuals to demonstrate that Google recognizes \
+    them as an expert in online advertising."
+  }]
+};
 
+//Formats name to transform all letters from the Second Name to uppercase.
 function interNames(myName) {
   var nameArray = myName.split(" ");
   var firstName = nameArray[0].slice(1).toLowerCase();
@@ -155,31 +188,47 @@ function interNames(myName) {
   return formattedName;
 };
 
+//Function to append items in index.html
 function addItems(location, helper, data) {
   var format = helper.replace("%data%", data);
   $(location).append(format);
 }
 
-addItems("#header", HTMLheaderName, interNames(bio.name));
-addItems("#header", HTMLheaderRole, interNames(bio.role));
-addItems("#header", HTMLwelcomeMsg, bio.message);
-addItems("#header", HTMLbioPic, bio.pic);
-
-addItems("#header", HTMLcontactsStart);
-addItems("#topContacts", HTMLemail, bio.contacts.email);
-addItems("#topContacts", HTMLgithub, bio.contacts.github);
-addItems("#topContacts", HTMLtwitter, bio.contacts.twitter);
-addItems("#topContacts", HTMLlinkedin, bio.contacts.linkedin);
-
+//Function to reiterate many append commands
 function addRepeat(location, helper, data) {
   for (var i = 0; i < data.length; i++) {
     addItems(location, helper, data[i]);
   }
 }
 
+//Appends items on Header Section
+addItems("#header", HTMLheaderName, interNames(bio.name));
+addItems("#header", HTMLheaderRole, bio.role);
+addItems("#header", HTMLcontactsStart);
+addItems("#topContacts, #footerContacts", HTMLemail, bio.contacts.email[0]);
+addItems("#topContacts, #footerContacts", HTMLgithub, bio.contacts.github[0]);
+addItems("#topContacts, #footerContacts", HTMLtwitter, bio.contacts.twitter[0]);
+addItems("#topContacts, #footerContacts", HTMLlinkedin, bio.contacts.linkedin[0]);
+addLinks();
+
+addItems("#header", HTMLbioPic, bio.pic);
+addItems("#header", HTMLwelcomeMsg, bio.message);
 addItems("#header", HTMLskillsStart);
 addRepeat("#skills", HTMLskills, bio.skills);
 
+// Adds hyperlinks to Contacts
+function addLinks() {
+  $(".email").attr("href", bio.contacts.email[1]);
+  $(".email").attr("target", "_blank");
+  $(".github").attr("href", bio.contacts.github[1]);
+  $(".github").attr("target", "_blank");
+  $(".twitter").attr("href", bio.contacts.twitter[1]);
+  $(".twitter").attr("target", "_blank");
+  $(".linkedin").attr("href", bio.contacts.linkedin[1]);
+  $(".linkedin").attr("target", "_blank");
+}
+
+//Function to display work sections
 work.display = function() {
   if (work.jobs.length > 0) {
     $("#workExperience").append(HTMLworkStart);
@@ -188,33 +237,29 @@ work.display = function() {
       var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[i].title);
       var formatEmployerTitle = formatEmployer + formatTitle;
       $(".work-entry").append(formatEmployerTitle);
-      var formatLocation = HTMLworkLocation.replace("%data%", work.jobs[i].location);
-      $(".work-entry").append(formatLocation);
-      var formatDates = HTMLworkDates.replace("%data%", work.jobs[i].dates);
-      $(".work-entry").append(formatDates);
-      var formatDesc = HTMLworkDescription.replace("%data%", work.jobs[i].description);
-      $(".work-entry").append(formatDesc);
+      addItems(".work-entry", HTMLworkLocation, work.jobs[i].location);
+      addItems(".work-entry", HTMLworkDates, work.jobs[i].dates);
+      addItems(".work-entry", HTMLworkDescription, work.jobs[i].description);
     }
   }
 };
 
 work.display();
 
+//Since projects have nested values that creates a tree of links, I had to create
+//3rd level loops to search for those values to propagate the data. Conditional
+//statements apply for images beacuse not all projects have images.
 projects.display = function() {
   $("#projects").append(HTMLprojectStart);
   for (var i = 0; i < projects.length; i++) {
     for (var x = 0; x < projects[i].length; x++) {
       var key = projects[i][x];
-      var title = HTMLprojectTitle.replace("%data%", key.title);
-      $(".project-entry").append(title);
-      var date = HTMLprojectDates.replace("%data%", key.date);
-      $(".project-entry").append(date);
-      var description = HTMLprojectDescription.replace("%data%", key.description);
-      $(".project-entry").append(description);
+      addItems(".project-entry", HTMLprojectTitle, key.title);
+      addItems(".project-entry", HTMLprojectDates, key.date);
+      addItems(".project-entry", HTMLprojectDescription, key.description);
       if (key.img.length > 0) {
-        for (var y = 0; y < key.img.length; y++){
-          var images = HTMLprojectImage.replace("%data%", key.img[y]);
-          $(".project-entry").append(images);
+        for (var y = 0; y < key.img.length; y++) {
+          addItems(".project-entry", HTMLprojectImage, key.img[y]);
         }
       } else {
         // console.log("No Images");
@@ -227,30 +272,35 @@ projects.display();
 
 education.display = function() {
   $("#education").append(HTMLschoolStart);
-  for (var i = 0; i < education.length; i++) {
-    if (i === 0) {
-      var key = education[i];
-      var title = HTMLschoolTitle.replace("%data%", key.title);
-      $(".education-entry").append(title);
-      var location = HTMLschoolLocation.replace("%data%", key.location);
-      $(".education-entry").append(location);
-      var date = HTMLschoolDates.replace("%data%", key.date);
-      $(".education-entry").append(date);
-      var description = HTMLprojectDescription.replace("%data%", key.description);
-      $(".education-entry").append(description);
-    } else {
-      for (var x = 0; x < education[i].length; x++) {
-        var key = education[i][x];
-        var title = HTMLschoolTitle.replace("%data%", key.title);
-        $(".education-entry").append(title);
-        var location = HTMLschoolLocation.replace("%data%", key.location);
-        $(".education-entry").append(location);
-        var date = HTMLschoolDates.replace("%data%", key.date);
-        $(".education-entry").append(date);
-        var description = HTMLprojectDescription.replace("%data%", key.description);
-        $(".education-entry").append(description);
-      }
-    }
+  var keySchool = education.school;
+  var formatSchoolTitle = HTMLschoolTitle.replace("%data%", keySchool.title);
+  var formatSchoolCollege = HTMLschoolCollege.replace("%data%", keySchool.college);
+  var formateTitleCollege = formatSchoolTitle + formatSchoolCollege;
+  $(".education-entry").append(formateTitleCollege);
+  addItems(".education-entry", HTMLschoolLocation, keySchool.location);
+  addItems(".education-entry", HTMLschoolDates, keySchool.date);
+  addItems(".education-entry", HTMLschoolDesc, keySchool.description);
+
+  $("#education").append(HTMLonlineClasses);
+  $("#education").append(HTMLonlineStart);
+  var keyOnline = education.online;
+  var formatOnlineTitle = HTMLonlineTitle.replace("%data%", keyOnline.title);
+  var formatOnlineSchool = HTMLonlineSchool.replace("%data%", keyOnline.school);
+  var formatTitleSchool = formatOnlineTitle + formatOnlineSchool;
+  $(".online-entry").append(formatTitleSchool);
+  addItems(".online-entry", HTMLonlineDates, keyOnline.date);
+  addItems(".online-entry", HTMLonlineDesc, keyOnline.description);
+
+  $("#education").append(HTMLcert);
+  $("#education").append(HTMLcertStart);
+  var keyCert = education.certifications;
+  for (var i = 0; i < keyCert.length; i++) {
+    var formatCertTitle = HTMLcertTitle.replace("%data%", keyCert[i].title);
+    var formatCertSource = HTMLcertSource.replace("%data%", keyCert[i].source);
+    var formatTitleSource = formatCertTitle + formatCertSource;
+    $(".certificate-entry").append(formatTitleSource);
+    addItems(".certificate-entry", HTMLcertDates, keyCert[i].date);
+    addItems(".certificate-entry", HTMLcertDesc, keyCert[i].description);
   }
 };
 
