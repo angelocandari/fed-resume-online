@@ -124,7 +124,7 @@ function initializeMap() {
 
     // adds the single location property from bio to the locations array
     for (var y = 0; y < bio.contacts.location.length; y++) {
-      locations.push(bio.contacts.location);
+      locations.push(bio.contacts.location); // TODO: transfer to command
     }
     // iterates through school locations and appends each location to
     // the locations array. Note that forEach is used for array iteration

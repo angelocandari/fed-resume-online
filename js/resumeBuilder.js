@@ -16,6 +16,40 @@ var model = {
     }
   },
 
+  work: [
+    {
+      employer: "The Address Dubai Mall",
+      title: "Ecommerce Executive",
+      location: "Dubai, United Arab Emirates",
+      dates: "May 2014 to September 2016",
+      desc: "Developed critical digital marketing strategies and implemented tactics including display advertising, native ads, SEM (SEO&PPC), email marketing, link -building, mobile and social media marketing generating brand awareness and increasing user engagement as well as driving online sales. Prepares concrete and actionable Ecommerce Reports that determines performance of online campaigns and website landing pages integrity. Manages Digital Brand of The Address Dubai Mall based on the overarching brand voice of The Address Resorts + Hotels. Improves conversions of campaigns and share of voice of our brand across the digital space. Liaise with third-party agencies/vendors and manages budgets for a  cost-effective digital campaign. Maintains relationships with online content providers, creative agencies, online PR and PPC experts. Transformed a relatively non-existent social media profile into an online presence across Twitter, Facebook, Google+ and Instagram, TripAdvisor and other Online Travel Agents. Monitors performance for digital campaigns with Google Analytics, Sprinklr, Social Bakers, Radian6, Revinate, Hootsuite and Tweetdeck."
+    }, {
+      employer: "Etisalat - Emirates Data Clearing House",
+      title: "Product Manager",
+      location: "Dubai, United Arab Emirates",
+      dates: "December 2011 to May 2014",
+      desc: " Managed the development of Revenue Assurance Roaming services. Organized creative campaign for new products and services. Conducts training for sales team on new services. Translates technical documents and writes commercial documents for new services. Conceptualize new services and initiate negotiations with partners on new services. Gathers technical data and industry compliance required for commercial implementation. Delegates tasks to IT team for development of services."
+    }, {
+      employer: "Smart Communications Technology",
+      title: "Technical Trainer",
+      location: "Manila, Philippines",
+      dates: "January 2011 to December 2011",
+      desc: "Act as the main go-to person for all product trainings and managing all technical enquiries from customers or sales teams Organized and implemented product trainings with nationwide sales team Streamlined training process that has cut execution period from 3 days to 1 day. Provided necessary documentation in support of sale teams. Improved web training (eLearning) compliance rate from 50% to 98% Supervised sales team in ensuring that presentation/marketing materials are updated and relevant to sales and marketing activities"
+    }, {
+      employer: "Smart Communications Technology",
+      title: "Web Developer",
+      location: "Manila, Philippines",
+      dates: "October 2009 to January 2011",
+      desc: "Promoted to Technical Trainer. Designed and developed interactive training website. Produced training videos and online courses for new products and technical knowledge. Created product portfolios, sales presentations and marketing materials in support of sales team."
+    }, {
+      employer: "Rockwell Land Corporation",
+      title: "Marketing Associate",
+      location: "Manila, Philippines",
+      dates: "July 2008 to October 2009",
+      desc: "Supervised marketing roadshow events. Coordinated with advertising agencies on marketing execution. Negotiated with external partners on budget and prices. Created product portfolios, sales presentations and marketing materials in support of sales team."
+    }
+  ],
+
   education: [{
     school: "Ateneo De Manila University",
     type: "College",
@@ -54,10 +88,15 @@ var model = {
 var command = {
   init: function() {
     headerView.init();
+    workView.init();
   },
 
   getHeaderData: function() {
     return model.bio;
+  },
+
+  getWorkData: function() {
+    return model.work;
   }
 };
 
@@ -88,7 +127,26 @@ var headerView = {
     headerView.headerPicElem.attr("src", headerData.biopic);
 
     for (var i = 0; i < headerData.skills.length; i++ ) {
-      headerView.headerSkillsElem.append('<li class="flex-item"><span class="white-text">' + headerData.skills[i] + '</span></li>')
+      headerView.headerSkillsElem.append('<li class="flex-item"><span class="white-text">' + headerData.skills[i] + '</span></li>');
+    }
+  }
+};
+
+var workView = {
+  init: function() {
+    this.workEmpElem = $('#work-list');
+
+    this.render();
+
+  },
+
+  render: function() {
+    var workData = command.getWorkData();
+    for (var i = 0; i < workData.length; i++) {
+      workView.workEmpElem.append('<h3 href="#">' + workData[i].employer + ' - ' + workData[i].title + '</h3>');
+      workView.workEmpElem.append('<div class="location-text">' + workData[i].location + '</div>');
+      workView.workEmpElem.append('<div class="date-text">' + workData[i].dates + '</div>');
+      workView.workEmpElem.append('<p><br>' + workData[i].desc + '</p>');
     }
   }
 };
@@ -243,22 +301,22 @@ function addRepeat(location, helper, data) {
 // bio.display();
 
 //Function to display work sections
-work.display = function() {
-  if (work.jobs.length > 0) {
-    $("#workExperience").append(HTMLworkStart);
-    for (var i = 0; i < work.jobs.length; i++) {
-      var formatEmployer = HTMLworkEmployer.replace("%data%", work.jobs[i].employer);
-      var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[i].title);
-      var formatEmployerTitle = formatEmployer + formatTitle;
-      $(".work-entry").append(formatEmployerTitle);
-      addItems(".work-entry", HTMLworkLocation, work.jobs[i].location);
-      addItems(".work-entry", HTMLworkDates, work.jobs[i].dates);
-      addItems(".work-entry", HTMLworkDescription, work.jobs[i].description);
-    }
-  }
-};
-
-work.display();
+// work.display = function() {
+//   if (work.jobs.length > 0) {
+//     $("#workExperience").append(HTMLworkStart);
+//     for (var i = 0; i < work.jobs.length; i++) {
+//       var formatEmployer = HTMLworkEmployer.replace("%data%", work.jobs[i].employer);
+//       var formatTitle = HTMLworkTitle.replace("%data%", work.jobs[i].title);
+//       var formatEmployerTitle = formatEmployer + formatTitle;
+//       $(".work-entry").append(formatEmployerTitle);
+//       addItems(".work-entry", HTMLworkLocation, work.jobs[i].location);
+//       addItems(".work-entry", HTMLworkDates, work.jobs[i].dates);
+//       addItems(".work-entry", HTMLworkDescription, work.jobs[i].description);
+//     }
+//   }
+// };
+//
+// work.display();
 
 //Displays my Projects
 projects.display = function() {
