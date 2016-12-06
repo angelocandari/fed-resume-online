@@ -50,6 +50,26 @@ var model = {
     }
   ],
 
+  projects: [
+    {
+      title: "Festive and NYE at The Address Dubai Mall 2015 Campaign",
+      dates: "2015",
+      desc: "Developed Digital Marketing strategy for Christmas and New Year’s Eve Celebration at The Address Dubai Mall. Utilizing Social Media Ads, Display Ads, PPC Search Ads, Remarketing/Contextual Ads, Blogger Collaboration, Email we were able to generate high visitor traffic at our main website. With a combination of proper targeting, optimized bidding and clear call-to-action landing pages, we were able to generated leads and a healthy conversation rate that has generated 33% over our investment.",
+      imgSrc: ["img/emaarFestive.jpg", "img/emaarNye.jpg"]
+    }, {
+      title: "Churrasco Campaign",
+      dates: "2016",
+      desc: "Managed overall Marketing Campaign for Churrasco Night at Cabana. I prepared the digital marketing strategy for this campaign that spanned the whole year. And with my marketing manager resigning for the year of 2015, I was given the opportunity to plan and implement the whole year strategy to promote Cabana Churrasco Campaign from Creative Design Concept to Campaign implementation for Print, Radio and Online. The campaign continued throughout the year with a kick-off event and complimentary bursts of tactical campaigns that sustained awareness and convert potential customers.",
+      imgSrc: ["img/emaarChurrasco.jpg", "img/emaarCabana.jpg"]
+    }, {
+      title: "Smart Bro Series",
+      dates: "2011",
+      desc: "Collection of training materials to update Field Sales Agents on new products of Smart Bro. Includes training videos and interactive flash-based training materials.",
+      imgSrc: ["img/smartSmartbro.jpg", "img/smartTechskills.jpg"]
+    }
+  ],
+
+
   education: [{
     school: "Ateneo De Manila University",
     type: "College",
@@ -89,6 +109,7 @@ var command = {
   init: function() {
     headerView.init();
     workView.init();
+    projectView.init();
   },
 
   getHeaderData: function() {
@@ -97,6 +118,10 @@ var command = {
 
   getWorkData: function() {
     return model.work;
+  },
+
+  getProjData: function() {
+    return model.projects;
   }
 };
 
@@ -134,7 +159,7 @@ var headerView = {
 
 var workView = {
   init: function() {
-    this.workEmpElem = $('#work-list');
+    this.workEmpElem = $('#work');
 
     this.render();
 
@@ -143,11 +168,39 @@ var workView = {
   render: function() {
     var workData = command.getWorkData();
     for (var i = 0; i < workData.length; i++) {
-      workView.workEmpElem.append('<h3 href="#">' + workData[i].employer + ' - ' + workData[i].title + '</h3>');
-      workView.workEmpElem.append('<div class="location-text">' + workData[i].location + '</div>');
-      workView.workEmpElem.append('<div class="date-text">' + workData[i].dates + '</div>');
-      workView.workEmpElem.append('<p><br>' + workData[i].desc + '</p>');
+      workView.workEmpElem.append('<div id="work' + i + '" class="work-entry"></div>');
+      var workEntry = $('#work' + i);
+      workEntry.append('<h3 href="#">' + workData[i].employer + ' - ' + workData[i].title + '</h3>');
+      workEntry.append('<div class="location-text">' + workData[i].location + '</div>');
+      workEntry.append('<div class="date-text">' + workData[i].dates + '</div>');
+      workEntry.append('<p><br>' + workData[i].desc + '</p>');
     }
+  }
+};
+
+var projectView = {
+  init: function() {
+    this.projElem = $('#projects');
+
+    this.render();
+
+  },
+
+  render: function() {
+    var projData = command.getProjData();
+    for (var i = 0; i < projData.length; i++) {
+      projectView.projElem.append('<div id="project' + i + '" class="project-entry"></div>');
+      var projEntry = $('#project' + i);
+      projEntry.append('<h3 href="#">' + projData[i].title + '</h3>');
+      projEntry.append('<div class="date-text">' + projData[i].dates + '</div>');
+      projEntry.append('<p><br>' + projData[i].desc + '</p>');
+      for (var x = 0; x < projData[i].imgSrc.length; x++){
+        projEntry.append('<img src="' + projData[i].imgSrc[x] + '">');
+      }
+
+
+    }
+
   }
 };
 
@@ -338,7 +391,7 @@ projects.display = function() {
   }
 };
 
-projects.display();
+// projects.display();
 
 //Displays my Education Background
 education.display = function() {
