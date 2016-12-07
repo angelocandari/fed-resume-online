@@ -110,6 +110,7 @@ var command = {
     headerView.init();
     workView.init();
     projectView.init();
+    educationView.init();
   },
 
   getHeaderData: function() {
@@ -122,6 +123,10 @@ var command = {
 
   getProjData: function() {
     return model.projects;
+  },
+
+  getEducData: function() {
+    return model.education;
   }
 };
 
@@ -197,29 +202,47 @@ var projectView = {
       for (var x = 0; x < projData[i].imgSrc.length; x++){
         projEntry.append('<img src="' + projData[i].imgSrc[x] + '">');
       }
-
-
     }
+  }
+};
 
+var educationView = {
+  init: function() {
+    this.educElem = $('#education');
+
+    this.render();
+  },
+
+  render: function() {
+    var educData = command.getEducData();
+
+    for (var i = 0; i < educData.length; i++) {
+      educationView.educElem.append('<div id="education' + i + '" class="education-entry"></div>');
+      var educEntry = $('#education' + i);
+      educEntry.append('<h3 href="#">' + educData[i].course + ' - ' + educData[i].school + '</h3>');
+      educEntry.append('<div><em>' + educData[i].type + '</em></div>');
+      educEntry.append('<div class="date-text">' + educData[i].dates + '</div>');
+      educEntry.append('<p><br>' + educData[i].desc + '</p>');
+    }
   }
 };
 
 command.init();
 
-var bio = {
-  "name": "Angelo Candari",
-  "role": "Digital Marketing Professional",
-  "contacts": {
-    "mobile": "123456789",
-    "email": "angelocandari@gmail.com",
-    "github": "angelocandari",
-    "twitter": "angelocandari1",
-    "location": "Busan"
-  },
-  "welcomeMessage": "Specializing in Digital Marketing with a background of Web Development and Data Analytics. I am a Google Analytics and Google Search Adwords Certified professional with a Bachelor's Degree in Communications Technology Management.",
-  "skills": ["Digital Marketing", "Web Development", "Data Analytics"],
-  "biopic": "img/pic.jpg"
-};
+// var bio = {
+//   "name": "Angelo Candari",
+//   "role": "Digital Marketing Professional",
+//   "contacts": {
+//     "mobile": "123456789",
+//     "email": "angelocandari@gmail.com",
+//     "github": "angelocandari",
+//     "twitter": "angelocandari1",
+//     "location": "Busan"
+//   },
+//   "welcomeMessage": "Specializing in Digital Marketing with a background of Web Development and Data Analytics. I am a Google Analytics and Google Search Adwords Certified professional with a Bachelor's Degree in Communications Technology Management.",
+//   "skills": ["Digital Marketing", "Web Development", "Data Analytics"],
+//   "biopic": "img/pic.jpg"
+// };
 
 var education = {
   "schools": [{
@@ -436,6 +459,6 @@ education.display = function() {
   }
 };
 
-education.display();
+// education.display();
 
 $("#mapDiv").append(googleMap);
